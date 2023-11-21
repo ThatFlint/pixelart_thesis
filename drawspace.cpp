@@ -17,7 +17,7 @@ DrawSpace::DrawSpace(QWidget *parent) : QWidget(parent)
     modified = false;
     drawing = false;
     myPenColor1 = Qt::black;
-    myPenColor2 = Qt::white;
+    myPenColor2 = Qt::blue;
     myPenSize = 1;
 }
 
@@ -36,7 +36,7 @@ bool DrawSpace::openImage(const QString &fileName){
 
 bool DrawSpace::saveImage(const QString &fileName, const char *fileFormat){
     QImage visibleImage = image;
-//    resize(&visibleImage, size());
+    resizeImage(&visibleImage, size());
     if(visibleImage.save(fileName, fileFormat)){
         modified = false;
         return true;

@@ -88,7 +88,7 @@ void MainWindow::createActions(){
     penSizeAct = new QAction(tr("Pen %Size..."), this);
     connect(penSizeAct, SIGNAL(triggered()), this, SLOT(penSize()));
 
-    clearSpaceAct = new QAction(tr("Pen %Size..."), this);
+    clearSpaceAct = new QAction(tr("C%lear Screen"), this);
     clearSpaceAct->setShortcut(tr("Ctrl+L"));
     connect(clearSpaceAct, SIGNAL(triggered()), drawSpace, SLOT(clearImage()));
 }
