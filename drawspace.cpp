@@ -1,3 +1,5 @@
+#include <string>
+#include <iostream>
 #include <QtWidgets>
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
@@ -62,21 +64,33 @@ void DrawSpace::clearImage(){
 }
 
 void DrawSpace::mousePressEvent(QMouseEvent *event){
-    if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton){
+    if(event->button() == Qt::LeftButton){
+        std::cout << "I started drawing" << std::endl;
+        lastPoint = event->pos();
         drawing = true;
+        std::cout << drawing << std::endl;
     }
+//    if(event->button() == Qt::RightButton){
+//        if (!drawing) {
+//            drawing = true;
+//        }
+//    }
 }
 
 void DrawSpace::mouseMoveEvent(QMouseEvent *event){
-    if((event->button() == Qt::LeftButton || event->button() == Qt::RightButton) && drawing){
+    std::cout << drawing << std::endl;
+    if(event->buttons() == Qt::LeftButton && drawing){
+        std::cout << "I am still drawing" << std::endl;
         drawLineTo(event->pos());
     }
 }
 
 void DrawSpace::mouseReleaseEvent(QMouseEvent *event){
-    if((event->button() == Qt::LeftButton || event->button() == Qt::RightButton) && drawing){
+    if(event->button() == Qt::LeftButton && drawing){
+        std::cout << "I have finished drawing" << std::endl;
         drawLineTo(event->pos());
         drawing = false;
+        std::cout << drawing << std::endl;
     }
 }
 
