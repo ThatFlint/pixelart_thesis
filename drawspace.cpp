@@ -65,10 +65,8 @@ void DrawSpace::clearImage(){
 
 void DrawSpace::mousePressEvent(QMouseEvent *event){
     if(event->button() == Qt::LeftButton){
-        std::cout << "I started drawing" << std::endl;
         lastPoint = event->pos();
         drawing = true;
-        std::cout << drawing << std::endl;
     }
 //    if(event->button() == Qt::RightButton){
 //        if (!drawing) {
@@ -78,19 +76,15 @@ void DrawSpace::mousePressEvent(QMouseEvent *event){
 }
 
 void DrawSpace::mouseMoveEvent(QMouseEvent *event){
-    std::cout << drawing << std::endl;
     if(event->buttons() == Qt::LeftButton && drawing){
-        std::cout << "I am still drawing" << std::endl;
         drawLineTo(event->pos());
     }
 }
 
 void DrawSpace::mouseReleaseEvent(QMouseEvent *event){
     if(event->button() == Qt::LeftButton && drawing){
-        std::cout << "I have finished drawing" << std::endl;
         drawLineTo(event->pos());
         drawing = false;
-        std::cout << drawing << std::endl;
     }
 }
 
