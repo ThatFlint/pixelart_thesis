@@ -20,6 +20,7 @@ DrawSpace::DrawSpace(QWidget *parent) : QWidget(parent)
     myPenColor2 = Qt::blue;
     myPenSize = 1;
     tool = "drawing";
+    mode = "direct";
 
 }
 
@@ -69,6 +70,11 @@ void DrawSpace::clearImage(){
     update();
 }
 
+void DrawSpace::clearTopLayer(){
+    topLayer.fill(qRgba(0,0,0,0));
+    update();
+}
+
 void DrawSpace::mousePressEvent(QMouseEvent *event){
     if(event->button() == Qt::LeftButton){
         lastPoint = event->pos();
@@ -83,13 +89,33 @@ void DrawSpace::mousePressEvent(QMouseEvent *event){
 
 void DrawSpace::mouseMoveEvent(QMouseEvent *event){
     if(event->buttons() == Qt::LeftButton && drawing){
-        drawLineTo(event->pos());
+        if (tool == "drawing"){
+            drawLineTo(event->pos());
+        } else if (tool.toStdString() == "line") {
+//            std::cout << tool.toStdString() << std::endl;
+            mode = "over";
+            projectLineTo(event->pos());
+        }
     }
+//    if(event->buttons() == Qt::LeftButton && drawing && ){
+//        std::cout << tool.toStdString() << std::endl;
+//        mode = "over";
+//        drawLineTo(event->pos());
+//        projectLineTo(event->pos());
+//    }
 }
 
 void DrawSpace::mouseReleaseEvent(QMouseEvent *event){
     if(event->button() == Qt::LeftButton && drawing){
-        drawLineTo(event->pos());
+        if (tool == "drawing")
+        {
+            drawLineTo(event->pos());
+        } else if (tool == "line")
+        {
+            mode = "direct";
+            clearTopLayer();
+            drawLineTo(event->pos());
+        }
         drawing = false;
     }
 }
@@ -97,7 +123,11 @@ void DrawSpace::mouseReleaseEvent(QMouseEvent *event){
 void DrawSpace::paintEvent(QPaintEvent *event){
     QPainter painter(this);
     QRect dirtyRect = event->rect();
-    painter.drawImage(dirtyRect,image,dirtyRect);
+    if (mode == "direct") {
+        painter.drawImage(dirtyRect,image,dirtyRect);
+    } else if (mode == "over") {
+        painter.drawPixmap(dirtyRect,topLayer,dirtyRect);
+    }
 }
 
 void DrawSpace::resizeEvent(QResizeEvent *event){
@@ -119,6 +149,15 @@ void DrawSpace::drawLineTo(const QPoint &endPoint){
     lastPoint = endPoint;
 }
 
+void DrawSpace::projectLineTo(const QPoint &endPoint){
+    QPainter painter(&topLayer);
+    topLayer.fill(qRgba(0,0,0,0));
+    painter.setPen(QPen(myPenColor1, myPenSize, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawLine(lastPoint, endPoint);
+    int rad = (myPenSize / 2) + 2;
+    update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
+}
+
 void DrawSpace::resizeImage(QImage *image, const QSize &newSize){
     if(image->size() == newSize){
         return;
@@ -128,6 +167,10 @@ void DrawSpace::resizeImage(QImage *image, const QSize &newSize){
     QPainter painter(&newImage);
     painter.drawImage(QPoint(0,0), *image);
     *image = newImage;
+
+    QPixmap top(image->size());
+    top.fill(qRgba(0,0,0,0));
+    topLayer = top;
 }
 
 

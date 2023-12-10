@@ -38,15 +38,19 @@ private slots:
 
 private:
     void drawLineTo(const QPoint &endPoint);
+    void projectLineTo(const QPoint &endPoint);
     void resizeImage(QImage *image, const QSize &newSize);
+    void clearTopLayer();
     bool modified;
     bool drawing;
     QColor myPenColor1;
     QColor myPenColor2;
     int myPenSize;
+    QPixmap topLayer;
     QImage image;
     QPoint lastPoint;
     QString tool;
+    QString mode;
 
 
 };
