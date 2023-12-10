@@ -25,9 +25,6 @@ public:
 
 public slots:
     void clearImage();
-//    QColor penColor1();
-//    QColor penColor2();
-//    int penSize();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
