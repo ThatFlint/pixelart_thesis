@@ -20,10 +20,13 @@ protected:
 protected slots:
     void open();
     void save();
-//    void exit();
     void penColor1();
     void penColor2();
     void penSize();
+
+//    void drawTool();
+//    void lineTool();
+//    void gradientTool();
 
 private:
     void createActions();
@@ -32,16 +35,21 @@ private:
     bool saveFile(const QByteArray &fileFormat);
     DrawSpace *drawSpace;
     QMenu *fileMenu;
+    QMenu *toolMenu;
     QMenu *saveAsMenu;
     QMenu *optionMenu;
     QAction *openAct;
     QList<QAction *> saveAsActs;
-//    QAction *printAct;
     QAction *exitAct;
     QAction *penColor1Act;
     QAction *penColor2Act;
     QAction *penSizeAct;
     QAction *clearSpaceAct;
+
+    QActionGroup *toolGroup;
+    QAction *drawToolAct;
+    QAction *lineToolAct;
+    QAction *gradientToolAct;
 
 };
 

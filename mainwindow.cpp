@@ -81,6 +81,24 @@ void MainWindow::createActions(){
     exitAct->setShortcuts(QKeySequence::Quit);
     connect(exitAct, SIGNAL(triggered()), this, SLOT(exit()));
 
+
+    QActionGroup *toolGroup = new QActionGroup(this);
+    toolGroup->setExclusive(true);
+
+    drawToolAct = new QAction(tr("Draw Tool"), this);
+    drawToolAct->setCheckable(true);
+    drawToolAct->setChecked(true);
+    toolGroup->addAction(drawToolAct);
+    connect(drawToolAct, SIGNAL(triggered()), this, SLOT(drawTool()));
+    lineToolAct = new QAction(tr("Line Tool"), this);
+    lineToolAct->setCheckable(true);
+    toolGroup->addAction(lineToolAct);
+    connect(lineToolAct, SIGNAL(triggered()), this, SLOT(lineTool()));
+    gradientToolAct = new QAction(tr("Gradient Tool"), this);
+    gradientToolAct->setCheckable(true);
+    toolGroup->addAction(gradientToolAct);
+    connect(gradientToolAct, SIGNAL(triggered()), this, SLOT(gradientTool()));
+
     penColor1Act = new QAction(tr("Pen %Color..."), this);
     connect(penColor1Act, SIGNAL(triggered()), this, SLOT(penColor1()));
     penColor2Act = new QAction(tr("Pen Color %Two..."), this);
@@ -106,6 +124,11 @@ void MainWindow::createMenus(){
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
+    toolMenu = new QMenu(tr("%Tool"), this);
+    toolMenu->addAction(drawToolAct);
+    toolMenu->addAction(lineToolAct);
+    toolMenu->addAction(gradientToolAct);
+
     optionMenu = new QMenu(tr("%Options"), this);
     optionMenu->addAction(penColor1Act);
     optionMenu->addAction(penColor2Act);
@@ -114,6 +137,7 @@ void MainWindow::createMenus(){
     optionMenu->addAction(clearSpaceAct);
 
     menuBar()->addMenu(fileMenu);
+    menuBar()->addMenu(toolMenu);
     menuBar()->addMenu(optionMenu);
 
 }
