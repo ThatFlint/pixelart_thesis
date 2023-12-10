@@ -24,9 +24,9 @@ protected slots:
     void penColor2();
     void penSize();
 
-//    void drawTool();
-//    void lineTool();
-//    void gradientTool();
+    void drawTool();
+    void lineTool();
+    void gradientTool();
 
 private:
     void createActions();

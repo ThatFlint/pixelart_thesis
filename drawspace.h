@@ -17,6 +17,7 @@ public:
     void setPenColor1(const QColor &newColor);
     void setPenColor2(const QColor &newColor);
     void setPenSize(int &newSize);
+    void setTool(QString &newTool);
 
     bool isModified() const {return modified;}
     QColor penColor1() const {return myPenColor1;}
@@ -45,6 +46,7 @@ private:
     int myPenSize;
     QImage image;
     QPoint lastPoint;
+    QString tool;
 
 
 };

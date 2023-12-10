@@ -19,6 +19,8 @@ DrawSpace::DrawSpace(QWidget *parent) : QWidget(parent)
     myPenColor1 = Qt::black;
     myPenColor2 = Qt::blue;
     myPenSize = 1;
+    tool = "drawing";
+
 }
 
 bool DrawSpace::openImage(const QString &fileName){
@@ -55,6 +57,10 @@ void DrawSpace::setPenColor2(const QColor &newColor){
 
 void DrawSpace::setPenSize(int &newSize){
     myPenSize = newSize;
+}
+
+void DrawSpace::setTool(QString &newTool){
+    tool = newTool;
 }
 
 void DrawSpace::clearImage(){

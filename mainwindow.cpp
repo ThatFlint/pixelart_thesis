@@ -64,6 +64,19 @@ void MainWindow::penSize() {
     }
 }
 
+void MainWindow::drawTool() {
+    QString newTool = "drawing";
+    drawSpace->setTool(newTool);
+}
+void MainWindow::lineTool() {
+    QString newTool = "line";
+    drawSpace->setTool(newTool);
+}
+void MainWindow::gradientTool() {
+    QString newTool = "gradient";
+    drawSpace->setTool(newTool);
+}
+
 void MainWindow::createActions(){
     openAct = new QAction(tr("&Open"), this);
     openAct->setShortcuts(QKeySequence::Open);
