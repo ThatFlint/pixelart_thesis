@@ -26,6 +26,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         drawspace.h
         mainwindow.h mainwindow.cpp
         drawspace.h drawspace.cpp
+        layer.h layer.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pixel_art_editor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

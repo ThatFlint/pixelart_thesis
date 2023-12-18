@@ -6,6 +6,8 @@
 #include<QPoint>
 #include<QWidget>
 
+class Layer;
+
 class DrawSpace : public QWidget
 {
     Q_OBJECT
@@ -18,6 +20,7 @@ public:
     void setPenColor2(const QColor &newColor);
     void setPenSize(int &newSize);
     void setTool(QString &newTool);
+    void resetLayers();
 
     bool isModified() const {return modified;}
     QColor penColor1() const {return myPenColor1;}
@@ -37,6 +40,10 @@ protected:
 private slots:
 
 private:
+    Layer *editingLayer;
+    std::list<Layer> layers;
+    Layer *selectedLayer;
+
     void drawLineTo(const QPoint &endPoint);
     void projectLineTo(const QPoint &endPoint);
     void resizeImage(QImage *image, const QSize &newSize);
@@ -46,8 +53,6 @@ private:
     QColor myPenColor1;
     QColor myPenColor2;
     int myPenSize;
-    QPixmap topLayer;
-    QImage image;
     QPoint lastPoint;
     QString tool;
     QString mode;

@@ -1,3 +1,4 @@
+#include "layer.h"
 #include <string>
 #include <iostream>
 #include <QtWidgets>
@@ -14,6 +15,9 @@
 DrawSpace::DrawSpace(QWidget *parent) : QWidget(parent)
 {
     setAttribute(Qt::WA_StaticContents);
+
+    resetLayers();
+
     modified = false;
     drawing = false;
     myPenColor1 = Qt::black;
@@ -24,7 +28,18 @@ DrawSpace::DrawSpace(QWidget *parent) : QWidget(parent)
 
 }
 
+void DrawSpace::resetLayers(){
+
+    editingLayer = new Layer;
+    Layer firstLayer = new Layer;
+    layers = new std::list<Layer>;
+    layers->push_back(firstLayer);
+    selectedLayer = &firstLayer;
+
+}
+
 bool DrawSpace::openImage(const QString &fileName){
+
     QImage loadedImage;
     if(!loadedImage.load(fileName)){
         return false;
@@ -35,6 +50,7 @@ bool DrawSpace::openImage(const QString &fileName){
     modified = false;
     update();
     return true;
+
 }
 
 bool DrawSpace::saveImage(const QString &fileName, const char *fileFormat){
@@ -134,7 +150,7 @@ void DrawSpace::resizeEvent(QResizeEvent *event){
     if(width() > image.width() || height() > image.height()){
         int newWidth = qMax(width() + 128, image.width());
         int newHeight = qMax(height() + 128, image.height());
-        resizeImage(&image, QSize(newWidth, newHeight));
+        initializeBaseWindow(&image, QSize(newWidth, newHeight));
         update();
     }
 }
@@ -151,26 +167,22 @@ void DrawSpace::drawLineTo(const QPoint &endPoint){
 
 void DrawSpace::projectLineTo(const QPoint &endPoint){
     QPainter painter(&topLayer);
-    topLayer.fill(qRgba(255,255,255,0));
+    topLayer.fill(Qt::transparent);
     painter.setPen(QPen(myPenColor1, myPenSize, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter.drawLine(lastPoint, endPoint);
     int rad = (myPenSize / 2) + 2;
     update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
 }
 
-void DrawSpace::resizeImage(QImage *image, const QSize &newSize){
+void DrawSpace::initializeBaseWindow(QImage *image, const QSize &newSize){
     if(image->size() == newSize){
         return;
     }
     QImage newImage(newSize, QImage::Format_ARGB32);
     newImage.fill(qRgba(255,255,255,0));
-    QPainter painter(&newImage);
-    painter.drawImage(QPoint(0,0), *image);
-    *image = newImage;
-
-    QPixmap top(image->size());
-    top.fill(qRgba(0,0,0,0));
-    topLayer = top;
+//    QPainter painter(&newImage);
+//    painter.drawImage(QPoint(0,0), *image);
+//    *image = newImage;
 }
 
 
