@@ -151,7 +151,7 @@ void DrawSpace::drawLineTo(const QPoint &endPoint){
 
 void DrawSpace::projectLineTo(const QPoint &endPoint){
     QPainter painter(&topLayer);
-    topLayer.fill(qRgba(0,0,0,0));
+    topLayer.fill(qRgba(255,255,255,0));
     painter.setPen(QPen(myPenColor1, myPenSize, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter.drawLine(lastPoint, endPoint);
     int rad = (myPenSize / 2) + 2;
