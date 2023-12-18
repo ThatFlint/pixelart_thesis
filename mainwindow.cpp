@@ -12,7 +12,7 @@ MainWindow::MainWindow()
     createMenus();
     setWindowTitle(tr("Super Cool Pixel Art Tool"));
 
-    resize(500, 500);
+    this->setFixedSize(QSize(700, 500));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
